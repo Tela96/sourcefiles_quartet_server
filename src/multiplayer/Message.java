@@ -8,6 +8,8 @@ public class Message implements Serializable
     private boolean winner;
     private List<String> cardIDlist;
     private String clientResponse;
+    private String currentCard;
+    private String lastWinner;
 
     public Message(boolean winner, List<String> cardIDlist)
     {
@@ -18,6 +20,12 @@ public class Message implements Serializable
     public Message(String clientResponse)
     {
         this.clientResponse = clientResponse;
+    }
+
+    public Message(String currentCard, String lastWinner)
+    {
+        this.currentCard = currentCard;
+        this.lastWinner = lastWinner;
     }
 
     public boolean isWinner()
