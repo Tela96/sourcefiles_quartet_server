@@ -1,3 +1,5 @@
+package multiplayer;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -10,13 +12,12 @@ import java.util.List;
  */
 public class ServerThread extends Thread
 {
-    List<String>responses;
+
+    private String PLayername;
     private Socket socket;
-    private String cardId;
+
     public ServerThread(Socket socket){
         this.socket = socket;
-        cardId = "";
-        responses = new ArrayList<>();
     }
 
     public Socket getSocket()
@@ -24,14 +25,9 @@ public class ServerThread extends Thread
         return socket;
     }
 
-    public String getCardId()
+    public String getPLayername()
     {
-        return cardId;
-    }
-
-    public void setCardId(String cardId)
-    {
-        this.cardId = cardId;
+        return PLayername;
     }
 
     public void run(){
@@ -41,17 +37,16 @@ public class ServerThread extends Thread
         {
             out = new DataOutputStream(socket.getOutputStream());
             in = new DataInputStream(socket.getInputStream());
+            PLayername = in.readUTF();
 
         }catch (IOException e){
             return;
         }
+
         while (true){
             try
             {
-
-                out.writeUTF(cardId);
-               responses.add(in.readUTF()+ socket.getRemoteSocketAddress());
-
+                out.writeUTF("csá");
             } catch (IOException e)
             {
                 e.printStackTrace();

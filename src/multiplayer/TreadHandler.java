@@ -1,10 +1,9 @@
+package multiplayer;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -13,14 +12,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class TreadHandler extends  Thread
 {
 
+    private int numberOfPLayers;
     private List<ServerThread> serverThreads;
     private ServerSocket serverSocket;
     private int port = 8312;
 
-    public TreadHandler()throws IOException{
+    public TreadHandler(int numberOfPLayers)throws IOException{
         serverThreads = new CopyOnWriteArrayList<>();
         serverSocket = new ServerSocket(port);
         serverSocket.setSoTimeout(10000);
+        this.numberOfPLayers = numberOfPLayers;
 
 
     }
@@ -32,7 +33,7 @@ public class TreadHandler extends  Thread
 
     public void run() {
         int n=0;
-        while (n < 2) {
+        while (n < numberOfPLayers) {
 
             ServerThread thread = null;
             try
