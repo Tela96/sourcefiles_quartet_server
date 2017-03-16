@@ -42,4 +42,14 @@ public class Message implements Serializable
     {
         return clientResponse;
     }
+
+    public String getCurrentCard()
+    {
+        return currentCard;
+    }
+
+    public String getLastWinner()
+    {
+        return lastWinner;
+    }
 }
