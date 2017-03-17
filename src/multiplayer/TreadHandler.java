@@ -39,6 +39,7 @@ public class TreadHandler extends  Thread
             try
             {   Socket client = serverSocket.accept();
                 System.out.println("Client connected with this ip: " + client.getRemoteSocketAddress());
+
                 thread = new ServerThread(client);
             } catch (IOException e)
             {

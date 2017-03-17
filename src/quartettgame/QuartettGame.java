@@ -35,7 +35,7 @@ public class QuartettGame implements Game
         QuartettPlayer lasWinner = null;
         for (int i = 0; i < numOfPlayers; i++){
 
-            clients.put( new QuartettPlayer(serverThreads.get(i).getName(), new QuartettHand()),serverThreads.get(i));
+            clients.put( new QuartettPlayer(serverThreads.get(i).getPLayername(), new QuartettHand()),serverThreads.get(i));
 
         }
 
@@ -75,12 +75,16 @@ public class QuartettGame implements Game
          if(player.equals(lastWinner))
          {
             message = new Message(true, cardIDs);
+            message.setLastWinner(lastWinner.getName());
             server.sendData(message);
+            System.out.println("message with \n\t" + message + "\n \t data sent.");
          }
          else
             {
                 message = new Message(false, cardIDs);
+                message.setLastWinner(lastWinner.getName());
                 server.sendData(message);
+                System.out.println("message with \n\t" + message + "\n \t data sent.");
             }
         }
     }
@@ -104,14 +108,27 @@ public class QuartettGame implements Game
         {
             for (Map.Entry<QuartettCard, QuartettPlayer > entry : cardsInPlay.entrySet())
             {
-                if (entry.getValue().equals(player)) topCard = entry.getKey();
-                cardName = topCard.getName();
+                if (entry.getValue().getName().equals(player.getName()))
+                {
+                    topCard = entry.getKey();
+                    cardName = topCard.getName();
+                    server = clients.get(player);
+                    if (lastWinner.getName().equals(entry.getValue().getName()))
+                    {
+                        message = new Message(cardName, true);
+                    }
+                    else
+                    {
+                        message = new Message(cardName, false);
+                    }
+                    message.setLastWinner(winner);
+                    server.sendData(message);
+                    System.out.println("data sent");
+                }
+
             }
 
-            server = clients.get(player);
-            cardsInPlay.get(player);
-            message = new Message(cardName, winner);
-            server.sendData(message);
+
         }
     }
     public void setFlagstoFalse()
@@ -139,6 +156,7 @@ public class QuartettGame implements Game
             gatherCards();
             sendTopCards(lastWinner);
             if(readMessage()){
+                System.out.println("Waiting for client responses...");
                 chosenAttr = clients.get(lastWinner).getMessage().getClientResponse();
                 setFlagstoFalse();
             }
@@ -152,8 +170,12 @@ public class QuartettGame implements Game
             rounds++;
 
         }while (checkWinCondition());
+
     }
 
+    private void sendFinalMessage(QuartettPlayer lastwinner){
+
+    }
     private void printCards(){
         System.out.println("Every card in this round: \n");
         for (QuartettCard card: cardsInPlay.keySet()){

@@ -67,18 +67,24 @@ public class ServerThread extends Thread
 
         try
         {
-            PLayername = in.readUTF();
+            PLayername = (String)in.readObject();
+            System.out.println("Name of the player is:\t" + PLayername);
 
         } catch (IOException e)
         {
             return;
+        } catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
         }
 
         while (true)
         {
             try
             {
+                System.out.println("Receiving data from" + socket.getRemoteSocketAddress());
                 message = (Message) in.readObject();
+                System.out.println("Data received:\n \t " + message);
                 flag = true;
 
             } catch (IOException e)

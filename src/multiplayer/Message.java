@@ -22,10 +22,10 @@ public class Message implements Serializable
         this.clientResponse = clientResponse;
     }
 
-    public Message(String currentCard, String lastWinner)
+    public Message(String currentCard, boolean winner)
     {
         this.currentCard = currentCard;
-        this.lastWinner = lastWinner;
+        this.winner = winner;
     }
 
     public boolean isWinner()
@@ -51,5 +51,22 @@ public class Message implements Serializable
     public String getLastWinner()
     {
         return lastWinner;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Message{" +
+                "winner=" + winner +
+                ", cardIDlist=" + cardIDlist +
+                ", clientResponse='" + clientResponse + '\'' +
+                ", currentCard='" + currentCard + '\'' +
+                ", lastWinner='" + lastWinner + '\'' +
+                '}';
+    }
+
+    public void setLastWinner(String lastWinner)
+    {
+        this.lastWinner = lastWinner;
     }
 }

@@ -24,6 +24,17 @@ public class Main
         {
             e.printStackTrace();
         }
+        while(true)
+        {
+            if (treadHandler.getServerThreads().size() == numberOfPlayer) break;
+        }
+        try
+        {
+            Thread.sleep(3000);
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
         Game quartetGame = new QuartettGame(new QuartettDeckBuilder("masterCrokCards.csv"), numberOfPlayer, treadHandler.getServerThreads());
         quartetGame.run();
     }
